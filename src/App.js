@@ -43,7 +43,7 @@ const App = () => {
   const loginForm = () => {
     return (
       <div>
-        <h1>Log in</h1>
+        <h2>Log in</h2>
         <form onSubmit={handleLogin}>
           <label for="username">Username</label>
           <input id="username" name='Username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
@@ -56,27 +56,53 @@ const App = () => {
     );
   }
 
-  if (user === null) {
+  const loggedIn = () => {
     return (
-      <div className="container">
-        { loginForm() }
+      <div>
+        <div className="row">
+          <div className="one-third column">
+            <p>{ user.name } logged in</p>
+          </div>
+          <div className="one-third column u-pull-right">
+            <button onClick={() => setUser(null)}>Log out</button>
+          </div>
+        </div>
+
+        <h2>Add a new blog</h2>
+        <form>
+          <div className="row">
+            <div className="one-half column">
+              <label for="title">Title</label>
+              <input className="u-full-width" id="title" name='Title' type='text'/>
+            </div>
+            <div className="one-half column">
+              <label for="author">Author</label>
+              <input className="u-full-width" id="author" name='Author' type='text'/>
+            </div>
+          </div>
+          <label for="url">URL</label>
+          <input className="u-full-width" id="url" name='URL' type='text'/>
+          <br/>
+          <button className="button-primary" type='submit'>Add</button>
+        </form>
+
+        <h2>Blogs</h2>
+        {
+          blogs.map((blog) =>
+            <Blog key={blog.id} blog={blog} />
+          )
+        }
       </div>
     )
-  } else {
-    return (
-        <div className="container">
-          <p>{ user.name } logged in</p>
-          <button onClick={() => setUser(null)}>Log out</button>
-
-          <h2>blogs</h2>
-          {
-            blogs.map((blog) =>
-            <Blog key={blog.id} blog={blog} />
-            )
-          }
-        </div>
-      )
   }
+
+  return (
+    <div className="container">
+      <h1>Blog pocket</h1>
+      <p>Save blogs you find interesting so you can find them in the future</p>
+      { user === null ? loginForm() : loggedIn()}
+    </div>
+  )
 }
 
 export default App
