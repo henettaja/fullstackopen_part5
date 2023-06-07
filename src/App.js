@@ -9,11 +9,12 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const [toast, setToast] = useState(null)
+
   const handleLogin = (event) => {
     event.preventDefault();
 
-    try {
-      loginService.login({ username, password }).then(user => {
+    loginService.login({ username, password }).then(user => {
         window.localStorage.setItem(
           'loggedBlogAppUser', JSON.stringify(user)
         );
@@ -21,26 +22,26 @@ const App = () => {
         setUser(user);
         setUsername('');
         setPassword('');
+      }).catch(e => {
+        console.error(e);
+        setToast('Wrong username or password');
       });
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   const saveBlog = (event) => {
     event.preventDefault();
 
-    try {
-      blogService.saveBlog({
-        title: event.target.Title.value,
-        author: event.target.Author.value,
-        url: event.target.URL.value,
-      }).then(blog => {
-        setBlogs(blogs.concat(blog));
-      });
-    } catch (e) {
+    blogService.saveBlog({
+      title: event.target.Title.value,
+      author: event.target.Author.value,
+      url: event.target.URL.value,
+    }).then(blog => {
+      setBlogs(blogs.concat(blog));
+      setToast(`Blog ${blog.title} by ${blog.author} added`);
+    }).catch(e => {
       console.log(e);
-    }
+      setToast('Failed to save the blog');
+    });
   }
 
   useEffect(() => {
@@ -49,9 +50,20 @@ const App = () => {
     } else {
       blogService.getAll().then(blogs =>
         setBlogs( blogs )
-      )
+      ).catch(e => {
+        console.error(e);
+        setToast('Failed to fetch blogs');
+      })
     }
   }, [user])
+
+  useEffect(() => {
+    if (toast) {
+      setTimeout(() => {
+        setToast(null);
+      }, 5000);
+    }
+  }, [toast])
 
 
   const loginForm = () => {
@@ -110,8 +122,17 @@ const App = () => {
     )
   }
 
+  const toastMessage = () => {
+    return (
+      <pre>
+        <code>{toast}</code>
+      </pre>
+    )
+  }
+
   return (
     <div className="container">
+      { toast ? toastMessage() : null }
       <h1>Blog pocket</h1>
       <p>Save blogs you find interesting so you can find them in the future</p>
       { user === null ? loginForm() : loggedIn()}
