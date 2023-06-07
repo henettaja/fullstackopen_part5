@@ -29,6 +29,22 @@ const App = () => {
     }
   }
 
+  const saveBlog = (event) => {
+    event.preventDefault();
+
+    try {
+      blogService.saveBlog({
+        title: event.target.Title.value,
+        author: event.target.Author.value,
+        url: event.target.URL.value,
+      }).then(blog => {
+        setBlogs(blogs.concat(blog));
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
     if (!user) {
       window.localStorage.removeItem('loggedBlogAppUser');
@@ -69,7 +85,7 @@ const App = () => {
         </div>
 
         <h2>Add a new blog</h2>
-        <form>
+        <form onSubmit={saveBlog}>
           <div className="row">
             <div className="one-half column">
               <label htmlFor="title">Title</label>

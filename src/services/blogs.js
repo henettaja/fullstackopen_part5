@@ -6,9 +6,14 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const saveBlog = (newBlog) => {
+  const request = axios.post(baseUrl, newBlog, { headers: { Authorization: token } })
+  return request.then(response => response.data)
+}
+
 const setToken = (newToken) => {
-    token = `bearer ${newToken}`
+    token = `Bearer ${newToken}`
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken }
+export default { getAll, saveBlog, setToken }
