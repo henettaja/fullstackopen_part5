@@ -45,9 +45,9 @@ const App = () => {
       <div>
         <h2>Log in</h2>
         <form onSubmit={handleLogin}>
-          <label for="username">Username</label>
+          <label htmlFor="username">Username</label>
           <input id="username" name='Username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input id="password" name='Password' type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
           <br/>
           <button className="button-primary" type='submit'>Log in</button>
@@ -72,15 +72,15 @@ const App = () => {
         <form>
           <div className="row">
             <div className="one-half column">
-              <label for="title">Title</label>
+              <label htmlFor="title">Title</label>
               <input className="u-full-width" id="title" name='Title' type='text'/>
             </div>
             <div className="one-half column">
-              <label for="author">Author</label>
+              <label htmlFor="author">Author</label>
               <input className="u-full-width" id="author" name='Author' type='text'/>
             </div>
           </div>
-          <label for="url">URL</label>
+          <label htmlFor="url">URL</label>
           <input className="u-full-width" id="url" name='URL' type='text'/>
           <br/>
           <button className="button-primary" type='submit'>Add</button>
