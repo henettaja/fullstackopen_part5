@@ -11,11 +11,9 @@ const App = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    console.log(username, password);
 
     try {
       loginService.login({ username, password }).then(user => {
-        console.log(user);
         window.localStorage.setItem(
           'loggedBlogAppUser', JSON.stringify(user)
         );
