@@ -45,13 +45,12 @@ const App = () => {
       <div>
         <h1>Log in</h1>
         <form onSubmit={handleLogin}>
-          <label>Username
-            <input name='Username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
-          </label>
-          <label>Password
-            <input name='Password' type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
-          </label>
-          <button type='submit'>Log in</button>
+          <label for="username">Username</label>
+          <input id="username" name='Username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
+          <label for="password">Password</label>
+          <input id="password" name='Password' type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
+          <br/>
+          <button className="button-primary" type='submit'>Log in</button>
         </form>
       </div>
     );
@@ -59,13 +58,13 @@ const App = () => {
 
   if (user === null) {
     return (
-      <div>
+      <div className="container">
         { loginForm() }
       </div>
     )
   } else {
     return (
-        <div>
+        <div className="container">
           <p>{ user.name } logged in</p>
           <button onClick={() => setUser(null)}>Log out</button>
 
