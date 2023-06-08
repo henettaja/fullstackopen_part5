@@ -32,20 +32,10 @@ const App = () => {
       });
   }
 
-  const saveBlog = (event) => {
-    event.preventDefault();
-
-    blogService.saveBlog({
-      title: event.target.Title.value,
-      author: event.target.Author.value,
-      url: event.target.URL.value,
-    }).then(blog => {
+  const saveBlog = (blog) => {
+    blogService.saveBlog(blog).then(blog => {
       setBlogs(blogs.concat(blog));
       setToast(`Blog ${blog.title} by ${blog.author} added`);
-
-      event.target.Title.value = '';
-      event.target.Author.value = '';
-      event.target.URL.value = '';
       blogFormRef.current.toggleVisibility()
     }).catch(e => {
       console.log(e);
