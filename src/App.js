@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable';
+import BlogForm from './components/BlogForm';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -10,6 +12,8 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   const [toast, setToast] = useState(null)
+
+  const blogFormRef = useRef();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -38,6 +42,11 @@ const App = () => {
     }).then(blog => {
       setBlogs(blogs.concat(blog));
       setToast(`Blog ${blog.title} by ${blog.author} added`);
+
+      event.target.Title.value = '';
+      event.target.Author.value = '';
+      event.target.URL.value = '';
+      blogFormRef.current.toggleVisibility()
     }).catch(e => {
       console.log(e);
       setToast('Failed to save the blog');
@@ -94,23 +103,9 @@ const App = () => {
           </div>
         </div>
 
-        <h2>Add a new blog</h2>
-        <form onSubmit={saveBlog}>
-          <div className="row">
-            <div className="one-half column">
-              <label htmlFor="title">Title</label>
-              <input className="u-full-width" id="title" name='Title' type='text'/>
-            </div>
-            <div className="one-half column">
-              <label htmlFor="author">Author</label>
-              <input className="u-full-width" id="author" name='Author' type='text'/>
-            </div>
-          </div>
-          <label htmlFor="url">URL</label>
-          <input className="u-full-width" id="url" name='URL' type='text'/>
-          <br/>
-          <button className="button-primary" type='submit'>Add</button>
-        </form>
+        <Togglable buttonLabel="Add a new blog" ref={blogFormRef}>
+            <BlogForm saveBlog={saveBlog} />
+        </Togglable>
 
         <h2>Blogs</h2>
         {
