@@ -123,7 +123,7 @@ const App = () => {
   }
 
   return (
-    <div className="container">
+    <div style={{marginTop: '2rem'}} className="container">
       { toast ? toastMessage() : null }
       <h1>Blog pocket</h1>
       <p>Save blogs you find interesting so you can find them in the future</p>
