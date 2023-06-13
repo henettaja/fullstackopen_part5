@@ -101,6 +101,7 @@ const App = () => {
         <ul style={
           {
             listStyleType: 'none',
+            margin: '1rem'
           }
         }>
           {
